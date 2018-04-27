@@ -639,7 +639,10 @@ ngx_http_vhost_traffic_status_display_set_server_node(
 
 #if (NGX_HTTP_CACHE)
     buf = ngx_sprintf(buf, NGX_HTTP_VHOST_TRAFFIC_STATUS_JSON_FMT_SERVER,
-                      &dst, vtsn->stat_request_counter,
+                      &dst,
+                      vtsn->stat_request_counter,
+                      vtsn->stat_conn_counter,
+                      vtsn->stat_active_counter,
                       vtsn->stat_in_bytes,
                       vtsn->stat_out_bytes,
                       vtsn->stat_1xx_counter,
@@ -681,7 +684,10 @@ ngx_http_vhost_traffic_status_display_set_server_node(
                       vtsn->stat_cache_scarce_counter_oc);
 #else
     buf = ngx_sprintf(buf, NGX_HTTP_VHOST_TRAFFIC_STATUS_JSON_FMT_SERVER,
-                      key, vtsn->stat_request_counter,
+                      key,
+                      vtsn->stat_request_counter,
+                      vtsn->stat_conn_counter,
+                      vtsn->stat_active_counter,
                       vtsn->stat_in_bytes,
                       vtsn->stat_out_bytes,
                       vtsn->stat_1xx_counter,
@@ -737,6 +743,8 @@ ngx_http_vhost_traffic_status_display_set_server(ngx_http_request_t *r,
 
             /* calculates the sum */
             vtscf->stats.stat_request_counter +=vtsn->stat_request_counter;
+            vtscf->stats.stat_conn_counter +=vtsn->stat_conn_counter;
+            vtscf->stats.stat_active_counter +=vtsn->stat_active_counter;
             vtscf->stats.stat_in_bytes += vtsn->stat_in_bytes;
             vtscf->stats.stat_out_bytes += vtsn->stat_out_bytes;
             vtscf->stats.stat_1xx_counter += vtsn->stat_1xx_counter;

@@ -131,11 +131,18 @@ ngx_http_vhost_traffic_status_shm_add_node(ngx_http_request_t *r,
         vtsn->stat_upstream.type = type;
         ngx_memcpy(vtsn->data, key->data, key->len);
 
+        r->connection->server_active_count = &vtsn->stat_active_counter;
+
         ngx_rbtree_insert(ctx->rbtree, node);
 
     } else {
         init = NGX_HTTP_VHOST_TRAFFIC_STATUS_NODE_FIND;
         vtsn = (ngx_http_vhost_traffic_status_node_t *) &node->color;
+        if (r->connection->server_active_count == NULL) {
+            vtsn->stat_conn_counter++;
+            (void) ngx_atomic_fetch_add(&vtsn->stat_active_counter, 1);
+            r->connection->server_active_count = &vtsn->stat_active_counter;
+        }
         ngx_http_vhost_traffic_status_node_set(r, vtsn);
     }
 

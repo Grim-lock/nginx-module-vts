@@ -228,6 +228,8 @@ ngx_http_vhost_traffic_status_node_init(ngx_http_request_t *r,
 
     /* set serverZone */
     vtsn->stat_request_counter = 1;
+    vtsn->stat_conn_counter = 1;
+    vtsn->stat_active_counter = 1;
     vtsn->stat_in_bytes = (ngx_atomic_uint_t) r->request_length;
     vtsn->stat_out_bytes = (ngx_atomic_uint_t) r->connection->sent;
 

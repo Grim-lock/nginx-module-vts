@@ -36,6 +36,8 @@ typedef struct {
 typedef struct {
     u_char                                           color;
     ngx_atomic_t                                     stat_request_counter;
+    ngx_atomic_t                                     stat_conn_counter;
+    ngx_atomic_t                                     stat_active_counter;
     ngx_atomic_t                                     stat_in_bytes;
     ngx_atomic_t                                     stat_out_bytes;
     ngx_atomic_t                                     stat_1xx_counter;

@@ -78,6 +78,8 @@
 #if (NGX_HTTP_CACHE)
 #define NGX_HTTP_VHOST_TRAFFIC_STATUS_JSON_FMT_SERVER "\"%V\":{"               \
     "\"requestCounter\":%uA,"                                                  \
+    "\"connectCounter\":%uA,"                                                  \
+    "\"activeCounter\":%uA,"                                                   \
     "\"inBytes\":%uA,"                                                         \
     "\"outBytes\":%uA,"                                                        \
     "\"responses\":{"                                                          \
@@ -123,6 +125,8 @@
 #else
 #define NGX_HTTP_VHOST_TRAFFIC_STATUS_JSON_FMT_SERVER "\"%V\":{"               \
     "\"requestCounter\":%uA,"                                                  \
+    "\"connectCounter\":%uA,"                                                  \
+    "\"activeCounter\":%uA,"                                                   \
     "\"inBytes\":%uA,"                                                         \
     "\"outBytes\":%uA,"                                                        \
     "\"responses\":{"                                                          \
@@ -282,6 +286,12 @@
     if (o->stat_request_counter > c->stat_request_counter) {                   \
         c->stat_request_counter_oc++;                                          \
     }                                                                          \
+    if (o->stat_conn_counter > c->stat_conn_counter) {                         \
+        c->stat_conn_counter++;                                                \
+    }                                                                          \
+    if (o->stat_active_counter > c->stat_active_counter) {                     \
+        c->stat_active_counter++;                                              \
+    }                                                                          \
     if (o->stat_in_bytes > c->stat_in_bytes) {                                 \
         c->stat_in_bytes_oc++;                                                 \
     }                                                                          \
@@ -333,6 +343,12 @@
 #define ngx_http_vhost_traffic_status_add_oc(o, c) {                           \
     if (o->stat_request_counter > c->stat_request_counter) {                   \
         c->stat_request_counter_oc++;                                          \
+    }                                                                          \
+    if (o->stat_conn_counter > c->stat_conn_counter) {                         \
+        c->stat_conn_counter++;                                                \
+    }                                                                          \
+    if (o->stat_active_counter > c->stat_active_counter) {                     \
+        c->stat_active_counter++;                                              \
     }                                                                          \
     if (o->stat_in_bytes > c->stat_in_bytes) {                                 \
         c->stat_in_bytes_oc++;                                                 \
